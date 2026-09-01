@@ -24,6 +24,7 @@ export function HabitForm({ addHabit }: HabitFormProps) {
                 focus-visible:ring-2 focus-visible:ring-violet-500`}
                 placeholder="New Habit..."/>
             <Button 
+                onClick={() => addHabit(name)}
                 disabled={name.trim() === ""} 
                 className="rounded-1g px-4 py-2 font-medium"
             >
