@@ -4,7 +4,11 @@ import { useHabits } from "../context/HabitProvider";
 
 export type Habit = {id: string; name: string; completions: Date[] }
 
-export function HabitList() {
+type HabitListProps = {
+    visibleDates: Date[]
+}
+
+export function HabitList({ visibleDates }: HabitListProps) {
     const { habits } = useHabits()
 
     if (habits.length == 0) {
@@ -13,7 +17,7 @@ export function HabitList() {
     return (
         <div className="flex flex-col gap-3">
             {habits.map(habit => (
-                <HabitItem key={habit.id} habit={habit}></HabitItem>
+                <HabitItem key={habit.id} habit={habit} visibleDates={visibleDates}></HabitItem>
             ))}
         </div>
     ) 
@@ -21,13 +25,11 @@ export function HabitList() {
 
 type HabitItemProps = {
     habit: Habit
+    visibleDates: Date[]
 }
 
-function HabitItem({ habit }: HabitItemProps) {
+function HabitItem({ habit, visibleDates }: HabitItemProps) {
     const { toggleHabit, deleteHabit } = useHabits()
-
-    const visibleDates = eachDayOfInterval({start: startOfWeek(new Date(), {weekStartsOn: 1}), 
-                                            end: endOfWeek(new Date(), {weekStartsOn: 1}),})
 
     const streak = getStreak(habit.completions)    
 
