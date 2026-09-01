@@ -1,18 +1,17 @@
 import { useState, type SubmitEvent } from "react";
 import { Button } from "./Button";
+import { useHabits } from "../context/HabitProvider";
 
-type HabitFormProps = {
-    addHabit: (name: string) => void
-}
-
-export function HabitForm({ addHabit }: HabitFormProps) {
+export function HabitForm() {
     const [name, setName] = useState("")
+    const { addHabit } = useHabits()
 
     function handleSubmit(e: SubmitEvent) {
         e.preventDefault();
 
         if (name.trim() === "") return 
         setName("")
+        addHabit(name)
     }
 
     return (
@@ -24,7 +23,6 @@ export function HabitForm({ addHabit }: HabitFormProps) {
                 focus-visible:ring-2 focus-visible:ring-violet-500`}
                 placeholder="New Habit..."/>
             <Button 
-                onClick={() => addHabit(name)}
                 disabled={name.trim() === ""} 
                 className="rounded-1g px-4 py-2 font-medium"
             >
